@@ -1,17 +1,43 @@
 import React from "react";
-import { Route, Routes,Navigate } from "react-router-dom";
-import type { RouterProps } from "src/types/route.type";
+import { Route, Routes,Navigate,Outlet } from "react-router-dom";
+import type { RouterProps } from "src/routes/route.type";
+import { APPROUTES } from "./app-routes";
+import Topbar from "src/components/shared/topBar/Topbar";
 
 const AppRouter: React.FC = () => {
   const routes: RouterProps[] = [
     {
-      path: "/",
-      element: <p>Home</p>,
-      children: [],
+        path:"/",
+        element:<Topbar/>,
+        children:[
+            {
+                path: "",
+                element:<Outlet/>,
+                children: [
+                  {
+                      path:'',
+                      element:<Navigate to={'/dashboard'}/>
+                  },
+                  {
+                      path:APPROUTES.DASHBOARD,
+                      element:<h3>Dashboard Contecnt</h3>
+                  },
+                  {
+                      path:APPROUTES.ADDBATCH,
+                      element:<h3>Add Batch</h3>
+                  },
+                  {
+                      path:APPROUTES.TESTRESULT,
+                      element:<h3>Test Result</h3>
+                  }
+                ],
+              },
+        ]
     },
+    
     {
       path: "*",
-      element: <Navigate to={'/home'}/>,
+      element: <Navigate to={'/'}/>,
       children: [],
     },
   ];
